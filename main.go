@@ -19,6 +19,9 @@ func main() {
 	fmt.Println("hello")
 	godotenv.Load(".env")
 	var portString string = os.Getenv("PORT")
+	if portString == "" {
+		portString = "8080"
+	}
 
 	// portString := "8008"
 
