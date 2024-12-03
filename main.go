@@ -20,7 +20,7 @@ func main() {
 	godotenv.Load(".env")
 	portString := os.Getenv("PORT")
 	if portString == "" {
-		portString = "8080"
+		log.Fatal("could not find port in env")
 	}
 
 	// portString := "8008"
