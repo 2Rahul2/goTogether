@@ -61,7 +61,11 @@ func (e *Epoll) InformDeletionResponse(fd int, userid string) {
 		return
 	}
 	conn := e.Connection[fd]
-	sendMessage(jsonData, &conn)
+	if conn != nil {
+		sendMessage(jsonData, &conn)
+	}
+	sendMessage(jsonData, nil)
+
 }
 
 func (e *Epoll) SendCancelResponse(fd int) {

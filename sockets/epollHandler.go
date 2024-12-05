@@ -88,12 +88,14 @@ func Start() {
 					switch message.Type {
 					case "user_left":
 						fmt.Println("user left with room id :")
+					case "sendmy_location":
+						var Data UserLocation
+						err := json.Unmarshal(message.Data, &Data)
+						if err != nil {
+							return
+						}
+						Data.UpdateLocation()
 					case "send_message":
-						// var Data struct {
-						// 	RoomId   uuid.UUID `json:"roomid"`
-						// 	Message  string    `json:"message"`
-						// 	Username string    `json:"username"`
-						// }
 						var Data ChatMessageData
 						err := json.Unmarshal(message.Data, &Data)
 						fmt.Println("got chat message")
