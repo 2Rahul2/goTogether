@@ -138,7 +138,7 @@ func join_error_respone(conn net.Conn) {
 		Result string `json:"result"`
 	}
 	jsonData, err := json.Marshal(join_again_response{
-		Type:   "found_users",
+		Type:   "room_expired",
 		Result: "error",
 	})
 	if err != nil {

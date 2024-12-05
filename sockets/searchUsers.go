@@ -36,9 +36,8 @@ func searchUserInterval(stopChan chan bool, userId string, longitude float64, la
 	var totalSearchCount int = 0
 	// Create a ticker to call the function at regular intervals
 	ticker := time.NewTicker(3 * time.Second)
-	defer ticker.Stop()
+	// defer ticker.Stop()
 
-	// Loop to keep checking at intervals
 	for {
 		select {
 		case <-stopChan:
@@ -68,21 +67,20 @@ func searchUserInterval(stopChan chan bool, userId string, longitude float64, la
 					}
 					userInfoArray = append(userInfoArray, userinfo)
 				} else {
-					fmt.Println("USER IS NIL IN SEARCH USERS")
 				}
 			}
 			userLock.Unlock()
 
 			if len(userInfoArray) > 1 {
-				stopChan <- true // Signal to stop searching if a nearby user is found
+				stopChan <- true
 				return &userInfoArray
 			}
 			totalSearchCount += 1
-			if totalSearchCount > 4 {
+			if totalSearchCount > 6 {
 				stopChan <- true
 				return nil
 			}
-			fmt.Println("No user found, will search again...", val)
+			fmt.Println("No user found, will search again...")
 		}
 	}
 }
@@ -105,7 +103,6 @@ func searchUsers(userId string, username string, user_longitude float64, user_la
 		return nil, 0, uuid.Nil
 	}
 
-	fmt.Println("Got users:", nearby_users_array)
 	nearby_Users, status, roomId := startJoiningRoom(userId, username, nearby_users_array, user_latitude, user_longitude, fd)
 
 	return nearby_Users, status, roomId
