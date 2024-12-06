@@ -18,6 +18,10 @@ type Message struct {
 	Data json.RawMessage `json:"data"`
 }
 
+type PongResponse struct {
+	Type string `json:"type"`
+}
+
 func PollsocketHandler(w http.ResponseWriter, r *http.Request) {
 	conn, _, _, err := ws.UpgradeHTTP(r, w)
 	if err != nil {
@@ -86,6 +90,15 @@ func Start() {
 						fmt.Println("Error marshalling")
 					}
 					switch message.Type {
+					case "ping":
+						var Data PongResponse = PongResponse{
+							Type: "pong",
+						}
+						jsonData, err := json.Marshal(Data)
+						if err != nil {
+							return
+						}
+						wsutil.WriteServerMessage(conn, ws.OpText, jsonData)
 					case "user_left":
 						fmt.Println("user left with room id :")
 					case "sendmy_location":
