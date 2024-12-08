@@ -109,9 +109,9 @@ func RoomExpiration(roomId uuid.UUID) {
 			room := val.(*Room)
 			for _, user := range *room.nearByUserData {
 				fmt.Println("sending expire status to user : ", user.userId, user.fd)
-				user := users[user.userId]
-				if user != nil {
-					delete(users ,user.userId)
+				user_ := users[user.userId]
+				if user_ != nil {
+					delete(users, user.userId)
 					//user.isjoinedRoom = false
 				}
 				Epoller.SendExpireRoomResponse(user.fd)
