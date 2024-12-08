@@ -111,7 +111,8 @@ func RoomExpiration(roomId uuid.UUID) {
 				fmt.Println("sending expire status to user : ", user.userId, user.fd)
 				user := users[user.userId]
 				if user != nil {
-					user.isjoinedRoom = false
+					delete(users ,user.userId)
+					//user.isjoinedRoom = false
 				}
 				Epoller.SendExpireRoomResponse(user.fd)
 			}
